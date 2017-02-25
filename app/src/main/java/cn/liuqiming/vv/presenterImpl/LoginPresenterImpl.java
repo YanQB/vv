@@ -18,4 +18,12 @@ public class LoginPresenterImpl {
         mLoginPresenter = new LoginPresenter();
         mLoginPresenter.attachView(view);
     }
+
+    public void login(String userName, String pwd) {
+        mLoginPresenter.login(userName, pwd);
+    }
+
+    public void sign(String userName, String pwd) {
+        mLoginPresenter.sign(userName, pwd);
+    }
 }

@@ -10,9 +10,13 @@ public interface LoginContract {
 
     interface View extends BaseContract.BaseView {
         void onLoginResult();
+
+        void onSignResult();
     }
 
     interface Presenter<T> extends BaseContract.BasePresenter<T> {
-        void login(String account, String pwd);
+        void login(String userName, String pwd);
+
+        void sign(String userName, String pwd);
     }
 }

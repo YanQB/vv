@@ -10,7 +10,7 @@
         android:layout_marginTop="150dp">
 
         <EditText
-            android:id="@+id/account_et"
+            android:id="@+id/user_name_et"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="请输入账号名"
@@ -32,5 +32,17 @@
             android:paddingRight="10dp" />
 
     </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/login_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="登陆" />
+
+    <Button
+        android:id="@+id/sign_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="注册" />
 
 </LinearLayout>
