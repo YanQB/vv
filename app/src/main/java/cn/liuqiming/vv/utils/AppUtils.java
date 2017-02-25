@@ -1,0 +1,102 @@
+/**
+ * created by yuyh, 16/04/09
+ * Copyright (c) 2016, smuyyh@gmail.com All Rights Reserved.
+ * #                                                   #
+ * #                       _oo0oo_                     #
+ * #                      o8888888o                    #
+ * #                      88" . "88                    #
+ * #                      (| -_- |)                    #
+ * #                      0\  =  /0                    #
+ * #                    ___/`---'\___                  #
+ * #                  .' \\|     |# '.                 #
+ * #                 / \\|||  :  |||# \                #
+ * #                / _||||| -:- |||||- \              #
+ * #               |   | \\\  -  #/ |   |              #
+ * #               | \_|  ''\---/''  |_/ |             #
+ * #               \  .-\__  '-'  ___/-. /             #
+ * #             ___'. .'  /--.--\  `. .'___           #
+ * #          ."" '<  `.___\_<|>_/___.' >' "".         #
+ * #         | | :  `- \`.;`\ _ /`;.`/ - ` : | |       #
+ * #         \  \ `_.   \_ __\ /__ _/   .-` /  /       #
+ * #     =====`-.____`.___ \_____/___.-`___.-'=====    #
+ * #                       `=---='                     #
+ * #     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   #
+ * #                                                   #
+ * #               佛祖保佑         永无BUG              #
+ * #                                                   #
+ */
+
+
+package cn.liuqiming.vv.utils;
+
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
+import android.os.Handler;
+import android.os.Looper;
+
+/**
+ * * Created by Timmy on 2016/10/25.
+ */
+public class AppUtils {
+
+    private static Context mContext;
+    private static Thread mUiThread;
+
+    private static Handler sHandler = new Handler(Looper.getMainLooper());
+
+    public static void init(Context context) {
+        mContext = context;
+        mUiThread = Thread.currentThread();
+    }
+
+    public static Context getAppContext() {
+        return mContext;
+    }
+
+    public static AssetManager getAssets() {
+        return mContext.getAssets();
+    }
+
+    public static Resources getResource() {
+        return mContext.getResources();
+    }
+
+    public static boolean isUIThread() {
+        return Thread.currentThread() == mUiThread;
+    }
+
+    public static void runOnUI(Runnable r) {
+        sHandler.post(r);
+    }
+
+    public static void runOnUIDelayed(Runnable r, long delayMills) {
+        sHandler.postDelayed(r, delayMills);
+    }
+
+    public static void removeRunnable(Runnable r) {
+        if (r == null) {
+            sHandler.removeCallbacksAndMessages(null);
+        } else {
+            sHandler.removeCallbacks(r);
+        }
+    }
+
+    /**
+     * 应用是否运行在前台
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isRunningForeground(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+        String currentPackageName = cn.getPackageName();
+        if (currentPackageName != null && currentPackageName.equals(context.getPackageName())) {
+            return true;
+        }
+        return false;
+    }
+}

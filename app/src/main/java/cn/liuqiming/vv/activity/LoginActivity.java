@@ -13,4 +13,9 @@ public class LoginActivity extends BaseActivity {
     protected int getLayoutId() {
         return R.layout.activity_login;
     }
+
+    @Override
+    protected void init() {
+        super.init();
+    }
 }
