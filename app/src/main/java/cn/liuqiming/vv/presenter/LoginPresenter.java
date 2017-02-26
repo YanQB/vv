@@ -1,14 +1,14 @@
 package cn.liuqiming.vv.presenter;
 
-import android.util.Log;
-
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.liuqiming.vv.base.BasePresenter;
+import cn.liuqiming.vv.bean.Result;
 import cn.liuqiming.vv.bean.User;
 import cn.liuqiming.vv.contract.LoginContract;
+import cn.liuqiming.vv.utils.ErrorUtils;
 
 /**
  * Created by Timmy on 2017/2/25.
@@ -22,9 +22,18 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
             @Override
             public void done(User user, BmobException e) {
                 if (user != null) {
-                    Log.d("bmob", "用户登陆成功");
+                    if (mView != null) {
+                        Result result = new Result();
+                        result.isSuccess = true;
+                        mView.onLoginResult(result);
+                    }
                 } else {
-                    Log.d("bmob", "登陆失败");
+                    if (mView != null) {
+                        Result result = new Result();
+                        result.isSuccess = false;
+                        result.errorMsg = ErrorUtils.getErrorMsg(e.getErrorCode());
+                        mView.onLoginResult(result);
+                    }
                 }
             }
         });
@@ -39,9 +48,18 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
             @Override
             public void done(User user, BmobException e) {
                 if (e == null) {
-                    Log.d("bmob", "注册成功");
+                    if (mView != null) {
+                        Result result = new Result();
+                        result.isSuccess = true;
+                        mView.onSignResult(result);
+                    }
                 } else {
-                    Log.d("bmob", "注册失败");
+                    if (mView != null) {
+                        Result result = new Result();
+                        result.isSuccess = true;
+                        result.errorMsg = ErrorUtils.getErrorMsg(e.getErrorCode());
+                        mView.onSignResult(result);
+                    }
                 }
             }
         });
